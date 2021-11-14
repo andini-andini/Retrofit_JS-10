@@ -59,11 +59,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
                 if(response.isSuccessful()){
-                    binding.setRepo(response.body().get(0));
+                    if(response.body().isEmpty()){
+                        alert.setVisibility(View.VISIBLE);
+                        binding.setRepo(null);
+                    } else {
+                        binding.setRepo(response.body().get(0));
+                        alert.setVisibility(View.GONE);
+                    }
                 } else {
                     alert.setVisibility(View.VISIBLE);
+                    binding.setRepo(null);
                 }
-                alert.setVisibility(View.GONE);
                 binding.setUsername("");
                 progress.dismiss();
             }
